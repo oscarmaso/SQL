@@ -1,0 +1,8 @@
+DROP DATABASE IF EXISTS exe9;
+CREATE DATABASE exe9;
+USE exe9;
+
+
+
+
+
