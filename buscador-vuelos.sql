@@ -43,21 +43,29 @@ CREATE TABLE VUELO(
 	FOREIGN KEY (Numero) REFERENCES TERMINALES(Numero)
 );
 
-
 CREATE TABLE ASIENTOS (
 	CodAsiento  char(4), 
-	-- 2 Primeros Numero para la Fila, 1 Letra para la posicion, 1 Numero para el asiento 1A2  
-	TipoClase ENUM('Turista','Turista Superior','Ejecutivo','Primera Clase'),
+	-- 2 Primeros Numero para la Fila, 1 Letra para la posicion, 1 Numero para el asiento
+	-- Ejemplo   03B3
+	TipoClase ENUM('Turista','Turista Superior','Ejecutivo','Primera Clase')
 	-- Avion Grande:
 	--  A     B     C	
 	-- OOO - OOO - OOO
 	-- OOO - OOO - OOO
 	-- OXO - OOO - OOO
-	-- Avion Pequeño: 
+	-- Avion Normal: 
 	--  A     B 
 	-- OOO - OOO
 	-- OXO - OOO
-); 
+);
+
+CREATE TABLE PASAJEROS (
+	DNI CHAR(15),
+	Nombre VARCHAR(20),
+	Apellido1 VARCHAR(20),
+	Apellido2 VARCHAR(20),
+	PRIMARY KEY (DNI)
+);
 
 
 
