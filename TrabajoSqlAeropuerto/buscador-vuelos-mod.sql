@@ -1,18 +1,15 @@
-/*	AEROPUERTO(CodIATA, Nombre, Ciudad, País)
---	TERMINALES(Número, CodIATA)
---	VUELO(CodVuelo, CodCompañia, AeropuertoOrigen, AeropuertoDestino, Estado)
---	ASIENTOS(CodAsiento, TipoClase)
---	PASAJEROS(DNI, Nombre, Apellido1, Apellido2)
---	RESERVA(Localizador, DNI,‎Precio)
---	RESERVA_VUELOS(Localizador, CodVuelo)
---	COMPAÑIA(CodCompañia, Nombre, Logo) */
+-- Modificación de la estructura con varias instrucciones
+-- para insertar y quitar una columna, añadir y 
+-- quitar una propiedad (UNIQUE, AUTO_INCREMENT, etc.)
+-- añadir y quitar una PRIMARY O FOREIGN KEY.
+
 
 DROP DATABASE IF EXISTS buscador_vuelos;
 CREATE DATABASE buscador_vuelos;
 USE buscador_vuelos;
 
 CREATE TABLE AEROPUERTO(
-	CodIATA CHAR(10),
+	CodIATA CHAR(3),
 	Nombre  VARCHAR(20), 
 	Ciudad  VARCHAR(20),
 	Pais	VARCHAR(20),
@@ -21,7 +18,7 @@ CREATE TABLE AEROPUERTO(
 
 CREATE TABLE TERMINALES(
 	Numero  CHAR,
-	CodIATA CHAR(10),
+	CodIATA CHAR(3),
 	PRIMARY KEY (Numero), -- Clave Principal Numeor para llevarsela a tabla VUELO.
 	CONSTRAINT FK_TERMINALES
 	FOREIGN KEY (CodIATA) REFERENCES AEROPUERTO(CodIATA)
@@ -53,7 +50,7 @@ CREATE TABLE VUELO(
 );
 
 CREATE TABLE ASIENTOS (
-	CodAsiento  char(4), 
+	CodAsiento  CHAR(4) NOT NULL, 
 	-- 2 Primeros Numero para la Fila, 1 Letra para la posicion, 1 Numero para el asiento
 	-- Ejemplo   03B3
 	TipoClase ENUM('Turista','Turista Superior','Ejecutivo','Primera Clase')
@@ -72,7 +69,7 @@ CREATE TABLE PASAJEROS (
 	DNI 		CHAR(15),
 	Nombre 		VARCHAR(20),
 	Apellido1 	VARCHAR(20),
-	Apellido2	 VARCHAR(20),
+	Apellido2	VARCHAR(20),
 	PRIMARY KEY (DNI)
 );
 
@@ -92,5 +89,15 @@ CREATE TABLE RESERVA_VUELOS (
 	FOREIGN KEY (Localizador) REFERENCES RESERVA(Localizador)
 );
 
+-- Parte de los Alter
 
+ALTER TABLE ASIENTOS MODIFY -- CHANGE
+	CodAsiento CHAR(4), -- CodAsiento CodAsiento CHAR(4),
+	ADD Reservados CHAR(4) AFTER TipoClase,
+	ADD PRIMARY KEY(CodAsiento);
 
+ALTER TABLE RESERVA MODIFY -- CHANGE
+	Precio DECIMAL(10,2) UNSIGNED; -- Precio Precio DECIMAL(10,2) UNSIGNED;
+
+ALTER TABLE VUELO MODIFY
+	DROP AeropuertoOrigen;
