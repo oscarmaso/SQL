@@ -41,7 +41,7 @@ CREATE TABLE VUELO(
 	Numero 			CHAR,  
 	AeropuertoOrigen 	VARCHAR(20),
 	AeropuertoDestino 	VARCHAR(20),
-	Estado 			ENUM('Antes de tiempo','Puntual','Cancelado','Retrasado','Embarcando'),
+	Estado 			ENUM('Antes de tiempo','Puntual','Cancelado','Retrasado','Embarcando','No info'),
 	Salida  		TIME,	
 	LLegada 		TIME,
 	PRIMARY KEY(CodVuelo, CodCompañia), 
@@ -53,7 +53,7 @@ CREATE TABLE VUELO(
 );
 
 CREATE TABLE ASIENTOS (
-	CodAsiento  char(4), 
+	CodAsiento  INT(4), 
 	-- 2 Primeros Numero para la Fila, 1 Letra para la posicion, 1 Numero para el asiento
 	-- Ejemplo   03B3
 	TipoClase ENUM('Turista','Turista Superior','Ejecutivo','Primera Clase')
@@ -69,7 +69,7 @@ CREATE TABLE ASIENTOS (
 );
 
 CREATE TABLE PASAJEROS (
-	DNI 		CHAR(15),
+	DNI 		CHAR(9),
 	Nombre 		VARCHAR(20),
 	Apellido1 	VARCHAR(20),
 	Apellido2	 VARCHAR(20),
@@ -77,8 +77,8 @@ CREATE TABLE PASAJEROS (
 );
 
 CREATE TABLE RESERVA (
-	Localizador	VARCHAR(20),
-	DNI		CHAR(15), 		
+	Localizador	CHAR(6),
+	DNI		CHAR(9), 		
 	Precio		CHAR(5),
 	PRIMARY KEY (Localizador),
 	CONSTRAINT FK_RESERVA
@@ -86,10 +86,11 @@ CREATE TABLE RESERVA (
 );
 
 CREATE TABLE RESERVA_VUELOS (
-	Localizador	VARCHAR(20),
-	CodVuelo	CHAR(10),
+	Localizador	CHAR(6),
+	CodVuelo	CHAR(5),
 	CONSTRAINT FK_RVUELOS
-	FOREIGN KEY (Localizador) REFERENCES RESERVA(Localizador)
+	FOREIGN KEY (Localizador) REFERENCES RESERVA(Localizador),
+	FOREIGN KEY (CodVuelo) REFERENCES VUELO(CodVuelo)
 );
 
 
